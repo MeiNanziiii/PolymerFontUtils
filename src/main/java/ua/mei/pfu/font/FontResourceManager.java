@@ -52,7 +52,7 @@ public class FontResourceManager {
 
     public static FontResourceManager create(String namespace, String name) {
         if (managers.stream().anyMatch(manager -> manager.namespace.equals(namespace) && manager.name.equals(name))) {
-            throw new IllegalStateException("This identifier already requested.");
+            throw new IllegalStateException("This identifier already used.");
         }
 
         FontResourceManager manager = new FontResourceManager(namespace, name);

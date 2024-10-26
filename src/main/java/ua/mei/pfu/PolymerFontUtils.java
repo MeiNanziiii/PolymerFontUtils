@@ -10,18 +10,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PolymerFontUtils implements ModInitializer {
-    public static FontResourceManager manager;
+    public static FontResourceManager spaceManager;
     public static Map<Integer, MutableText> spaceMap = new HashMap<>();
 
     @Override
     public void onInitialize() {
         PolymerResourcePackUtils.addModAssets("pfu");
 
-        manager = FontResourceManager.create("pfu", "spaces");
+        spaceManager = FontResourceManager.create("pfu", "spaces");
 
         for (int i = -256; i <= 256; i++) {
             if (i != 0) {
-                spaceMap.put(i, manager.requestSpace(i));
+                spaceMap.put(i, spaceManager.requestSpace(i));
             }
         }
 
