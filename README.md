@@ -4,6 +4,16 @@ API for generating font files. Uses polymer resource pack api.
 
 # Example
 
+```groovy
+repositories {
+    maven { url "https://api.modrinth.com/maven" }
+}
+
+dependencies {
+    modImplementation include("maven.modrinth:pfu:0.1.0+1.21.2")
+}
+```
+
 ```java
 public class PolymerFontUtilsTest implements ModInitializer {
     public static FontResourceManager manager;
