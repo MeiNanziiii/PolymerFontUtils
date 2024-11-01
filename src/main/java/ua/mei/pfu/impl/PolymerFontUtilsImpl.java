@@ -11,14 +11,12 @@ import java.util.HashMap;
 
 @ApiStatus.Internal
 public class PolymerFontUtilsImpl implements ModInitializer {
-    public static FontResourceManager spaceManager;
+    public static FontResourceManager spaceManager = FontResourceManager.create("pfu", "pfu", "spaces");
     public static HashMap<Integer, MutableText> spaceMap = new HashMap<>();
 
     @Override
     public void onInitialize() {
         PolymerResourcePackUtils.addModAssets("pfu");
-
-        spaceManager = FontResourceManager.create("pfu", "pfu", "spaces");
 
         for (int i = -256; i <= 256; i++) {
             if (i != 0) {
