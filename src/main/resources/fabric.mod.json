@@ -13,7 +13,7 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "ua.mei.pfu.PolymerFontUtils"
+            "ua.mei.pfu.impl.PolymerFontUtilsImpl"
         ]
     },
     "depends": {

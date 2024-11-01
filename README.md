@@ -10,25 +10,25 @@ repositories {
 }
 
 dependencies {
-    modImplementation include("maven.modrinth:pfu:0.1.0+1.21.2")
+    modImplementation include("maven.modrinth:pfu:0.1.1+1.21.2")
 }
 ```
 
 ```java
 public class PolymerFontUtilsTest implements ModInitializer {
     public static FontResourceManager manager;
-    public static BitmapFontProvider bitmap;
+    public static BitmapGlyph glyph;
 
     @Override
     public void onInitialize() {
         PolymerResourcePackUtils.addModAssets("pfut");
 
         manager = FontResourceManager.create("pfut", "test");
-        bitmap = manager.requestBitmap("font/icon.png", 128, 64);
+        glyph = manager.requestGlyph("font/icon.png", 128, 64);
     }
 }
 ```
 
-You can get list of all bitmap's from manager using command `/pfu pfut:test`
+You can get list of all bitmaps from manager using command `/pfu pfut:test`
 
 ![Example](https://cdn.modrinth.com/data/cached_images/7b5072dcfef25fed385a3415f413730532a2ace4.png)

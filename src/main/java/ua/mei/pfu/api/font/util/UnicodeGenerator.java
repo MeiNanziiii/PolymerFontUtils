@@ -1,4 +1,4 @@
-package ua.mei.pfu.util;
+package ua.mei.pfu.api.font.util;
 
 public class UnicodeGenerator {
     private int latestUnicodePoint = 0x4E00;
