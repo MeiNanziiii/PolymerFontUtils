@@ -104,6 +104,10 @@ public class FontResourceManager {
     }
 
     public MutableText requestSpace(int advance) {
+        if (advance == 0) {
+            return Text.empty();
+        }
+
         Map<String, Integer> advances = spaceProvider.advances();
 
         if (!advances.isEmpty()) {

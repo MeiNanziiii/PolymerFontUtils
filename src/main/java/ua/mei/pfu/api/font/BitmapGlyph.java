@@ -5,7 +5,6 @@ import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import ua.mei.pfu.api.font.provider.BitmapFontProvider;
-import ua.mei.pfu.impl.PolymerFontUtilsImpl;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -13,7 +12,6 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
-@SuppressWarnings({"unused"})
 public class BitmapGlyph {
     public final FontResourceManager manager;
     public final BitmapFontProvider provider;
@@ -29,6 +27,7 @@ public class BitmapGlyph {
     public final String symbol;
 
     public MutableText value;
+    public TextFormatter formatter;
 
     private BitmapGlyph(FontResourceManager manager, BitmapFontProvider provider, BufferedImage image, int glyphWidth, int glyphHeight) {
         this.manager = manager;
@@ -45,6 +44,7 @@ public class BitmapGlyph {
         this.symbol = provider.chars().getFirst();
 
         this.value = Text.literal(provider.chars().getFirst()).styled(style -> style.withFont(manager.identifier));
+        this.formatter = new TextFormatter(this.value);
     }
 
     protected static BitmapGlyph create(FontResourceManager manager, String path, int height, int ascent) {
@@ -95,52 +95,5 @@ public class BitmapGlyph {
         return lastX == -1
                 ? new int[]{width, height}
                 : new int[]{lastX + 1, lastY + 1};
-    }
-
-    public MutableText spaceBefore(int space, FontResourceManager manager) {
-        return Text.empty()
-                .append(manager.requestSpace(space))
-                .append(this.value);
-    }
-
-    public MutableText spaceBefore(int space) {
-        return spaceBefore(space, PolymerFontUtilsImpl.spaceManager);
-    }
-
-    public MutableText spaceAfter(int space, FontResourceManager manager) {
-        return Text.empty()
-                .append(this.value)
-                .append(manager.requestSpace(space));
-    }
-
-    public MutableText spaceAfter(int space) {
-        return spaceAfter(space, PolymerFontUtilsImpl.spaceManager);
-    }
-
-    public MutableText space(int before, int after, FontResourceManager manager) {
-        return Text.empty()
-                .append(manager.requestSpace(before))
-                .append(this.value)
-                .append(manager.requestSpace(after));
-    }
-
-    public MutableText space(int before, int after) {
-        return space(before, after, PolymerFontUtilsImpl.spaceManager);
-    }
-
-    public MutableText space(int space, FontResourceManager manager) {
-        return space(space, space, manager);
-    }
-
-    public MutableText space(int space) {
-        return space(space, space);
-    }
-
-    public MutableText offset(int offset, FontResourceManager manager) {
-        return space(offset, -offset, manager);
-    }
-
-    public MutableText offset(int offset) {
-        return space(offset, -offset, PolymerFontUtilsImpl.spaceManager);
     }
 }
