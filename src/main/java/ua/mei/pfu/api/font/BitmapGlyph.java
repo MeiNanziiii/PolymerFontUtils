@@ -27,7 +27,6 @@ public class BitmapGlyph {
     public final String symbol;
 
     public MutableText value;
-    public TextFormatter formatter;
 
     private BitmapGlyph(FontResourceManager manager, BitmapFontProvider provider, BufferedImage image, int glyphWidth, int glyphHeight) {
         this.manager = manager;
@@ -44,7 +43,6 @@ public class BitmapGlyph {
         this.symbol = provider.chars().getFirst();
 
         this.value = Text.literal(provider.chars().getFirst()).styled(style -> style.withFont(manager.identifier));
-        this.formatter = new TextFormatter(this.value);
     }
 
     protected static BitmapGlyph create(FontResourceManager manager, String path, int height, int ascent) {
@@ -95,5 +93,9 @@ public class BitmapGlyph {
         return lastX == -1
                 ? new int[]{width, height}
                 : new int[]{lastX + 1, lastY + 1};
+    }
+
+    public TextFormatter formatter() {
+        return new TextFormatter(this.value);
     }
 }

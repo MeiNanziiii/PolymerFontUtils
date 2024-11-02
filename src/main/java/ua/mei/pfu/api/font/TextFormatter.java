@@ -6,16 +6,16 @@ import ua.mei.pfu.impl.PolymerFontUtilsImpl;
 
 @SuppressWarnings({"unused"})
 public class TextFormatter {
-    public MutableText text;
+    public MutableText value;
 
-    public TextFormatter(MutableText text) {
-        this.text = text;
+    public TextFormatter(MutableText value) {
+        this.value = value;
     }
 
     public TextFormatter spaceBefore(int space, FontResourceManager manager) {
-        text = Text.empty()
+        value = Text.empty()
                 .append(manager.requestSpace(space))
-                .append(this.text);
+                .append(this.value);
         return this;
     }
 
@@ -24,8 +24,8 @@ public class TextFormatter {
     }
 
     public TextFormatter spaceAfter(int space, FontResourceManager manager) {
-        this.text = Text.empty()
-                .append(this.text)
+        this.value = Text.empty()
+                .append(this.value)
                 .append(manager.requestSpace(space));
 
         return this;
@@ -36,9 +36,9 @@ public class TextFormatter {
     }
 
     public TextFormatter space(int before, int after, FontResourceManager manager) {
-        this.text = Text.empty()
+        this.value = Text.empty()
                 .append(manager.requestSpace(before))
-                .append(this.text)
+                .append(this.value)
                 .append(manager.requestSpace(after));
 
         return this;
