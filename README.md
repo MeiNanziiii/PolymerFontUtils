@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    modImplementation include("maven.modrinth:pfu:0.1.4+1.21.2")
+    modImplementation include("maven.modrinth:pfu:0.1.5+1.21.2")
 }
 ```
 
