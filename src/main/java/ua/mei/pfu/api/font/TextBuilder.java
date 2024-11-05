@@ -7,6 +7,7 @@ import ua.mei.pfu.impl.PolymerFontUtilsImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"unused"})
 public class TextBuilder {
     public final List<Text> texts = new ArrayList<>();
 
