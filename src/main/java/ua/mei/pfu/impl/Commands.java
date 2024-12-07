@@ -7,7 +7,8 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
-import ua.mei.pfu.api.font.FontResourceManager;
+import ua.mei.pfu.api.FontResource;
+import ua.mei.pfu.api.provider.BitmapFontProvider;
 import ua.mei.pfu.impl.ui.ManagerUI;
 
 import static net.minecraft.server.command.CommandManager.argument;
@@ -20,25 +21,23 @@ public class Commands {
                 .requires(source -> source.hasPermissionLevel(4))
                 .then(argument("identifier", IdentifierArgumentType.identifier())
                         .suggests((context, builder) -> {
-                            for (FontResourceManager manager : FontResourceManager.managers) {
-                                if (!manager.glyphs.isEmpty()) {
-                                    builder.suggest(manager.identifier.toString());
-                                }
-                            }
+                            FontResource.resources.stream()
+                                    .filter(resource -> resource.providers.stream().anyMatch(provider -> provider instanceof BitmapFontProvider))
+                                    .map(resource -> resource.identifier.toString())
+                                    .forEach(builder::suggest);
+
                             return builder.buildFuture();
                         })
                         .executes(context -> {
                             Identifier identifier = IdentifierArgumentType.getIdentifier(context, "identifier");
 
                             if (context.getSource().isExecutedByPlayer()) {
-                                for (FontResourceManager manager : FontResourceManager.managers) {
-                                    if (manager.identifier.equals(identifier)) {
-                                        if (!manager.glyphs.isEmpty()) {
-                                            new ManagerUI(manager).open(context.getSource().getPlayer());
-                                            return 1;
-                                        }
-                                    }
-                                }
+                                FontResource.resources.stream()
+                                        .filter(resource -> resource.identifier.equals(identifier) && resource.providers.stream().anyMatch(provider -> provider instanceof BitmapFontProvider))
+                                        .findFirst()
+                                        .ifPresent(resource -> {
+                                            new ManagerUI(resource).open(context.getSource().getPlayer());
+                                        });
                             }
                             return 0;
                         })

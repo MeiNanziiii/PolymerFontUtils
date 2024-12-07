@@ -11,22 +11,31 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
-import ua.mei.pfu.api.font.BitmapGlyph;
-import ua.mei.pfu.api.font.FontResourceManager;
+import ua.mei.pfu.api.FontResource;
+import ua.mei.pfu.api.provider.BitmapFontProvider;
+
+import java.util.List;
 
 @ApiStatus.Internal
 public class ManagerUI extends MicroUi {
     private static final int ITEMS_PER_PAGE = 45;
 
-    private final FontResourceManager manager;
+    private final FontResource resource;
+    private final List<BitmapFontProvider> bitmaps;
+
     private int page;
 
-    public ManagerUI(FontResourceManager manager) {
+    public ManagerUI(FontResource resource) {
         super(6);
 
-        this.title(Text.literal(manager.identifier.toString()));
+        this.title(Text.literal(resource.identifier.toString()));
 
-        this.manager = manager;
+        this.resource = resource;
+        this.bitmaps = resource.providers.stream()
+                .filter(provider -> provider instanceof BitmapFontProvider)
+                .map(provider -> (BitmapFontProvider) provider)
+                .toList();
+
         this.page = 0;
 
         this.drawUi();
@@ -34,19 +43,21 @@ public class ManagerUI extends MicroUi {
 
     private void drawUi() {
         int start = page * ITEMS_PER_PAGE;
-        int end = Math.min((page + 1) * ITEMS_PER_PAGE, this.manager.glyphs.size());
+        int end = Math.min((page + 1) * ITEMS_PER_PAGE, this.bitmaps.size());
 
         for (int i = start; i < end; i++) {
-            BitmapGlyph glyph = this.manager.glyphs.get(i);
+            BitmapFontProvider bitmap = bitmaps.get(i);
+            String symbol = bitmap.chars().getFirst();
+
             ItemStack stack = new ItemStack(Items.PAPER);
 
-            stack.set(DataComponentTypes.ITEM_NAME, glyph.value);
+            stack.set(DataComponentTypes.ITEM_NAME, bitmap.asText().styled(style -> style.withShadowColor(0)));
             stack.set(DataComponentTypes.TOOLTIP_STYLE, Identifier.of("pfu:tooltip"));
 
             this.slot(i - start, stack, (player, slotIndex, button, actionType) -> {
-                Text copyText = Text.literal("[Copy Symbol]").formatted(Formatting.GREEN).styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, glyph.symbol)));
-                Text copySimplifiedFormat = Text.literal("[Simplified Text Format]").formatted(Formatting.GREEN).styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, String.format("<font:'%s'>%s</font>", manager.identifier.toString(), glyph.symbol))));
-                Text copyQuickFormat = Text.literal("[Quick Text Format]").formatted(Formatting.GREEN).styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, String.format("<font '%s'>%s</font>", manager.identifier.toString(), glyph.symbol))));
+                Text copyText = Text.literal("[Copy Symbol]").formatted(Formatting.GREEN).styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, symbol)));
+                Text copySimplifiedFormat = Text.literal("[Simplified Text Format]").formatted(Formatting.GREEN).styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, String.format("<font:'%s'>%s</font>", resource.identifier.toString(), symbol))));
+                Text copyQuickFormat = Text.literal("[Quick Text Format]").formatted(Formatting.GREEN).styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, String.format("<font '%s'>%s</font>", resource.identifier.toString(), symbol))));
                 player.sendMessage(Text.empty().append(copyText).append("\n").append(copySimplifiedFormat).append("\n").append(copyQuickFormat));
                 player.closeHandledScreen();
             });
@@ -66,7 +77,7 @@ public class ManagerUI extends MicroUi {
             this.slot(ITEMS_PER_PAGE + 4, MicroUiElements.EMPTY, MicroUiElements.EMPTY_ACTION);
             this.slot(ITEMS_PER_PAGE + 5, MicroUiElements.EMPTY, MicroUiElements.EMPTY_ACTION);
             this.slot(ITEMS_PER_PAGE + 6, MicroUiElements.EMPTY, MicroUiElements.EMPTY_ACTION);
-            if (this.page >= this.manager.glyphs.size() / ITEMS_PER_PAGE) {
+            if (this.page >= this.bitmaps.size() / ITEMS_PER_PAGE) {
                 this.slot(ITEMS_PER_PAGE + 7, MicroUiElements.BUTTON_NEXT_LOCK, MicroUiElements.EMPTY_ACTION);
             } else {
                 this.slot(ITEMS_PER_PAGE + 7, MicroUiElements.BUTTON_NEXT, (player, slotIndex, button, actionType) -> {

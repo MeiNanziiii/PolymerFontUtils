@@ -2,19 +2,26 @@ package ua.mei.pfut;
 
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
 import net.fabricmc.api.ModInitializer;
-import ua.mei.pfu.api.font.BitmapGlyph;
-import ua.mei.pfu.api.font.FontResourceManager;
-import ua.mei.pfu.api.font.provider.BitmapFontProvider;
+import ua.mei.pfu.api.BitmapGlyph;
+import ua.mei.pfu.api.FontResource;
+import ua.mei.pfu.api.FontResourceManager;
+import ua.mei.pfu.api.util.FontSpaceUtils;
 
 public class PolymerFontUtilsTest implements ModInitializer {
     public static FontResourceManager manager;
-    public static BitmapGlyph bitmap;
+    public static FontResource resource;
+    public static BitmapGlyph glyph;
 
     @Override
     public void onInitialize() {
         PolymerResourcePackUtils.addModAssets("pfut");
 
-        manager = FontResourceManager.create("pfut", "pfut", "test");
-        bitmap = manager.requestGlyph("font/icon.png", 32);
+        manager = FontResourceManager.create("pfut");
+        resource = manager.requestFont("test");
+        glyph = resource.requestGlyph("font/icon.png", 128, 32);
+
+        FontSpaceUtils.requestAdvance(-256);
+        FontSpaceUtils.requestAdvances(-128, 1, 3);
+        FontSpaceUtils.requestRange(2, 19);
     }
 }
