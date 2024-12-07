@@ -9,7 +9,6 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import ua.mei.pfu.api.FontResource;
 import ua.mei.pfu.api.FontResourceManager;
-import ua.mei.pfu.api.util.FontSpaceUtils;
 
 @ApiStatus.Internal
 public class PolymerFontUtilsImpl implements ModInitializer {

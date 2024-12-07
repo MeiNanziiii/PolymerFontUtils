@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class FontSpaceUtils {
     public static final FontResource spaceResource = PolymerFontUtilsImpl.manager.requestFont("spaces");
-    public static final SpaceFontProvider spaceProvider = new SpaceFontProvider(new HashMap<>(), spaceResource);
+    public static final SpaceFontProvider spaceProvider = new SpaceFontProvider(new HashMap<>());
     public static final Map<Integer, MutableText> spaceMap = new HashMap<>(Map.of(0, Text.empty()));
 
     public static void requestAdvance(int advance) {
