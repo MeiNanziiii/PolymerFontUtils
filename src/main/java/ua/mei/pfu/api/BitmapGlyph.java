@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.nio.file.Path;
 
-@SuppressWarnings({"unused"})
 public class BitmapGlyph {
     public final FontResource resource;
     public final FontResourceManager manager;

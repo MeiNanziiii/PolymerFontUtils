@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    modImplementation include("maven.modrinth:pfu:0.2.1+1.21.4")
+    modImplementation include("maven.modrinth:pfu:0.2.2+1.21.4")
 }
 ```
 
@@ -18,6 +18,7 @@ dependencies {
 public class PolymerFontUtilsTest implements ModInitializer {
     public static FontResourceManager manager;
     public static FontResource resource;
+    public static TextResource text;
     public static BitmapGlyph glyph;
 
     @Override
@@ -26,6 +27,7 @@ public class PolymerFontUtilsTest implements ModInitializer {
 
         manager = FontResourceManager.create("pfut");
         resource = manager.requestFont("test");
+        text = manager.requestText(-20); // Font identifier: pfut:text/default_-20
         glyph = resource.requestGlyph("font/icon.png", 128, 32);
 
         FontSpaceUtils.requestAdvance(-256);

@@ -9,6 +9,7 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import ua.mei.pfu.api.FontResource;
 import ua.mei.pfu.api.FontResourceManager;
+import ua.mei.pfu.api.TextResource;
 
 @ApiStatus.Internal
 public class PolymerFontUtilsImpl implements ModInitializer {
@@ -29,6 +30,13 @@ public class PolymerFontUtilsImpl implements ModInitializer {
                 String path = "assets/" + resource.identifier.getNamespace() + "/font/" + resource.identifier.getPath() + ".json";
 
                 byte[] bytes = ("{\"providers\":" + gson.toJson(resource.providers) + "}").getBytes();
+
+                builder.addData(path, bytes);
+            }
+            for (TextResource resource : TextResource.resources) {
+                String path = "assets/" + resource.identifier.getNamespace() + "/font/" + resource.identifier.getPath() + ".json";
+
+                byte[] bytes = resource.json.getBytes();
 
                 builder.addData(path, bytes);
             }

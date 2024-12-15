@@ -3,7 +3,6 @@ package ua.mei.pfu.api.util;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 
-@SuppressWarnings({"unused"})
 public class TextFormatter {
     public MutableText value;
 

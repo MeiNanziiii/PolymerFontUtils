@@ -8,7 +8,6 @@ import ua.mei.pfu.api.provider.BaseFontProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings({"unused"})
 public class TextBuilder {
     public final List<Text> texts = new ArrayList<>();
 
