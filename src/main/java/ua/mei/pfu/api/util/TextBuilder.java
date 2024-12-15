@@ -11,7 +11,7 @@ import java.util.List;
 public class TextBuilder {
     public final List<Text> texts = new ArrayList<>();
 
-    public TextBuilder text(MutableText text) {
+    public TextBuilder text(Text text) {
         this.texts.add(text);
         return this;
     }
