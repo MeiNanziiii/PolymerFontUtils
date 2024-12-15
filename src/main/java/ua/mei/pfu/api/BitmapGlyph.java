@@ -48,10 +48,12 @@ public class BitmapGlyph {
 
         this.image = image;
 
+        float ratio = (float) provider.height() / this.image.getHeight();
+
         int[] size = getGlyphSize(image);
 
-        this.glyphWidth = size[0];
-        this.glyphHeight = size[1];
+        this.glyphWidth = (int) (size[0] * ratio);
+        this.glyphHeight = (int) (size[1] * ratio);
 
         this.symbol = provider.chars().getFirst();
         this.value = provider.asText();

@@ -43,4 +43,8 @@ public class FontResourceManager {
     public FontResource requestFont(String path) {
         return requestFont(this.modId, path);
     }
+
+    public TextResource requestText() {
+
+    }
 }
