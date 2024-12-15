@@ -4,11 +4,12 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.text.MutableText;
 import ua.mei.pfu.api.provider.BitmapFontProvider;
+import ua.mei.pfu.api.util.TextFormatter;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.nio.file.Path;
-import java.util.Optional;
 
 public class BitmapGlyph {
     public final FontResource resource;
@@ -30,18 +31,18 @@ public class BitmapGlyph {
 
         BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 
-        try {
-            Optional<ModContainer> container = FabricLoader.getInstance().getModContainer(this.manager.modId);
+        ModContainer container = FabricLoader.getInstance().getModContainer(this.manager.modId).orElse(null);
 
-            if (container.isPresent()) {
-                Optional<Path> imagePath = container.get().findPath("assets/" + provider.file().getNamespace() + "/textures/" + provider.file().getPath());
+        if (container != null) {
+            Path path = container.findPath("assets/" + provider.file().getNamespace() + "/textures/" + provider.file().getPath()).orElse(null);
 
-                if (imagePath.isPresent()) {
-                    image = ImageIO.read(imagePath.get().toFile());
+            if (path != null) {
+                try (InputStream stream = path.getFileSystem().provider().newInputStream(path)) {
+                    image = ImageIO.read(stream);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
         this.image = image;
@@ -74,5 +75,9 @@ public class BitmapGlyph {
         return lastX == -1
                 ? new int[]{width, height}
                 : new int[]{lastX + 1, lastY + 1};
+    }
+
+    public TextFormatter formatter() {
+        return new TextFormatter(this.value);
     }
 }
