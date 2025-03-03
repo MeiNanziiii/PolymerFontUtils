@@ -9,11 +9,11 @@
     ],
     "contact": {},
     "license": "LGPL-3.0",
-    "icon": "assets/pfu/icon.png",
+    "icon": "assets/icon.png",
     "environment": "*",
     "entrypoints": {
         "main": [
-            "ua.mei.pfu.impl.PolymerFontUtilsImpl"
+            "ua.mei.pfu.v2.impl.PolymerFontUtilsImpl"
         ]
     },
     "depends": {

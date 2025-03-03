@@ -1,0 +1,6 @@
+{
+    "type": "pfu:bitmap",
+    "font": "pfut:test",
+    "height": 128,
+    "ascent": 32
+}

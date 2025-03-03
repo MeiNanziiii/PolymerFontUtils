@@ -1,0 +1,18 @@
+{
+    "type": "font",
+    "providers": [
+        {
+            "type": "bitmap",
+            "file": "pfu:font/icon",
+            "height": 128,
+            "ascent": 32
+        },
+        {
+            "type": "space",
+            "advances": {
+                "type": "range",
+                "range": [ -256, 256 ]
+            }
+        }
+    ]
+}
